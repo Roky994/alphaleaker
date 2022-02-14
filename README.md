@@ -8,19 +8,30 @@ Get alpha regarding cryptocurrencies.
 
 # Services
 
-## Public Trends
+## Trends
 
 Provides trending cryptocurrencies.
 Data is provided bz [https://apewisdom.io/](apewisdom.io) API.
 
-- Running report
-
+- Running
 ```
-python run.py
+python trends.py
 ```
 
 - Running migrations
 
 ```
-python run.py migrate [drop]
+python trends.py migrate [drop]
 ```
+
+## Tweets
+
+- Running
+- 
+```
+python trends.py
+```
+
+## Alpha
+
+TODO

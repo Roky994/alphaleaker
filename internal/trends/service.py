@@ -4,14 +4,15 @@ import os
 
 from dotenv import load_dotenv
 
-from internal.core import db
-from internal.main import messages
-from internal.main.clients import apewisdom, discord
+from internal.trends import queries
+from internal.trends import messages
+from internal.trends import apewisdom
+from internal.common.clients import discord
 
 logger = logging.getLogger(__name__)
 
 
-class TrendingCryptoCurrencies:
+class TrendingService:
     discord_client = None
 
     TICKER_BLACKLIST = [
@@ -46,7 +47,7 @@ class TrendingCryptoCurrencies:
         apewisdom_client = apewisdom.ApeWisdomClient()
         result = apewisdom_client.get_tredning_cryptocurrencies()
         self.discord_client = discord.DiscordWebhookClient(
-            webhook_secret=os.getenv("DISCORD_WH_SECRET_PUBLIC_TRENDS")
+            webhook_secret=os.getenv("DISCORD_WH_SECRET_TRENDS")
         )
 
         for raw_ticker in result["results"]:
@@ -69,7 +70,9 @@ class TrendingCryptoCurrencies:
         if trending_ticker.ticker in self.TICKER_BLACKLIST:
             return
 
-        saved_trending_ticker = db.get_trending_ticker(ticker=trending_ticker.ticker)
+        saved_trending_ticker = queries.get_trending_ticker(
+            ticker=trending_ticker.ticker
+        )
         if saved_trending_ticker:
             if self._is_change_detected(trending_ticker, saved_trending_ticker):
                 logger.info(
@@ -117,7 +120,7 @@ class TrendingCryptoCurrencies:
                 )
             )
 
-        db.insert_trending_ticker(trending_ticker=trending_ticker)
+        queries.insert_trending_ticker(trending_ticker=trending_ticker)
 
     def get_alert_message(self, trending_ticker: messages.TrendingTicker) -> str:
         rank_diff = ((trending_ticker.rank / trending_ticker.rank_24h_ago) - 1) * 100

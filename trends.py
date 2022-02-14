@@ -10,7 +10,7 @@ load_dotenv()
 LOG_FILE = os.getenv("LOG_FILE")
 
 from internal.core import db
-from internal.main import service
+from internal.trends import service as trends_service
 
 logger = logging.getLogger(__name__)
 
@@ -38,5 +38,5 @@ if __name__ == "__main__":
         if "quiet" in sys.argv:
             quiet = True
 
-    logger.info("Running TrendingCryptoCurrencies (quiet_mode={}).".format(quiet))
-    service.TrendingCryptoCurrencies(quiet=quiet).report()
+    logger.info("Running TrendingService (quiet_mode={}).".format(quiet))
+    trends_service.TrendingService(quiet=quiet).report()
