@@ -1,15 +1,17 @@
-# ApeTrends
+# AlphaLeaker
 
-Get notified on new trending cryptocurrencies.
-Data is provided bz [https://apewisdom.io/](apewisdom.io) API.
+Get alpha regarding cryptocurrencies.
 
-
-# Requirements:
+# Requirements
 
 - $ pip install -U python-dotenv
 
+# Services
 
-# Running:
+## Public Trends
+
+Provides trending cryptocurrencies.
+Data is provided bz [https://apewisdom.io/](apewisdom.io) API.
 
 - Running report
 

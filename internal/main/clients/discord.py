@@ -1,14 +1,8 @@
 import logging
-import os
 
 import requests
-from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
-
-
-load_dotenv()
-DISCORD_SECRET = os.getenv("DISCORD_WEBHOOK_SECRET")
 
 
 class DiscordWebhookClientError(Exception):
@@ -16,12 +10,17 @@ class DiscordWebhookClientError(Exception):
 
 
 class DiscordWebhookClient:
+    _webhook_secret = None
+
     BASE_DISCORD_URL = "https://discord.com/api/webhooks"
     OK_STATUS_CODES = [204]
 
+    def __init__(self, webhook_secret: str) -> None:
+        self._webhook_secret = webhook_secret
+
     def _request(self, message: str) -> None:
         response = requests.post(
-            "{}/{}".format(self.BASE_DISCORD_URL, DISCORD_SECRET),
+            "{}/{}".format(self.BASE_DISCORD_URL, self._webhook_secret),
             json={"content": message},
         )
         if response.status_code not in self.OK_STATUS_CODES:

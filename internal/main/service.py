@@ -1,6 +1,8 @@
-import datetime
 import logging
 import time
+import os
+
+from dotenv import load_dotenv
 
 from internal.core import db
 from internal.main import messages
@@ -10,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class TrendingCryptoCurrencies:
+    discord_client = None
+
     TICKER_BLACKLIST = [
         "BTC",
         "ETH",
@@ -35,11 +39,15 @@ class TrendingCryptoCurrencies:
 
     def __init__(self, quiet=False) -> None:
         self.quiet = quiet
+        load_dotenv()
 
     def report(self) -> None:
         logger.info("Starting TrendingCryptoCurrencies report.")
         apewisdom_client = apewisdom.ApeWisdomClient()
         result = apewisdom_client.get_tredning_cryptocurrencies()
+        self.discord_client = discord.DiscordWebhookClient(
+            webhook_secret=os.getenv("DISCORD_WH_SECRET_PUBLIC_TRENDS")
+        )
 
         for raw_ticker in result["results"]:
             trending_ticker = messages.TrendingTicker.from_api_dict(api_dict=raw_ticker)
@@ -98,7 +106,7 @@ class TrendingCryptoCurrencies:
 
     def _save_and_report_ticker(self, trending_ticker: messages.TrendingTicker) -> None:
         if not self.quiet:
-            discord.DiscordWebhookClient().send_message(
+            self.discord_client.send_message(
                 message=self.get_alert_message(trending_ticker),
             )
             time.sleep(0.5)  # Rate limiting
