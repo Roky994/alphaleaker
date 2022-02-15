@@ -32,9 +32,19 @@ class TrendingService:
         "LINK",
         "LTC",
         "BCH",
+        "APY",
+        "DEX",
+        "DAO",
+        "NEWS",
+        "CRO",
+        "DONUT",
+        "CDC",
+        "FTX",
+        "ATOM",
+        "ALGO",
     ]
     RANK_THRESHOLD = None
-    MENTIONS_THRESHOLD = 50
+    MENTIONS_THRESHOLD = 40
 
     quiet = False
 

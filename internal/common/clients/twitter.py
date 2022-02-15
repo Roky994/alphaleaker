@@ -14,7 +14,7 @@ class TwitterClientError(Exception):
 
 
 class TwitterClient:
-    API_URL = "https://api.twitter.com/2"  # API v2
+    API_URL = "https://api.twitter.com"
     OK_STATUS_CODES = [200]
 
     _bearer_token = None
@@ -48,6 +48,16 @@ class TwitterClient:
 
         return self._request(
             "GET",
-            url="/users/{user_id}/tweets".format(user_id=user_id),
+            url="/2/users/{user_id}/tweets".format(user_id=user_id),
+            params=params,
+        )
+
+    def search_users(
+        self,
+    ) -> str:
+        params = {}
+        return self._request(
+            "GET",
+            url="1.1/users/search",
             params=params,
         )

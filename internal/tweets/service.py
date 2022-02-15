@@ -20,6 +20,7 @@ class TweetsService:
         905395394: "AndreCronjeTech",
         1214090353826942976: "chng_raymond",
         1383844736260210691: "shitc0in",
+        1480297433020215297: "thedefiedge",
     }
     RECENT_TWEETS_IN_MINUTES = 15  # Match interval for running
 

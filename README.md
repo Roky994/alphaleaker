@@ -26,12 +26,18 @@ python trends.py migrate [drop]
 
 ## Tweets
 
+Provides new tweets from marked users
+
 - Running
-- 
 ```
-python trends.py
+python tweets.py
 ```
 
-## Alpha
+## Sniper
 
-TODO
+Provides new twitter accounts with possible new projects
+
+- Running
+```
+python sniper.py
+```
